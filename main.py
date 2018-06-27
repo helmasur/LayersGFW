@@ -15,6 +15,9 @@ from kivy.uix.widget import Widget
 class MainFrame(Widget):
     pass
 
+class Layer(Widget):
+    pass
+
 
 class LayersApp(App):
     def build(self):
