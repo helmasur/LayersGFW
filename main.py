@@ -47,12 +47,17 @@ must match the name of the app, e.g. PongApp
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
+from kivy.uix.button import Button
 
 
 class MainFrame(BoxLayout):
     pass
 
-class Layer(BoxLayout):
+class RightPane(BoxLayout):
+    def __init__(self, **kwargs):
+        super(RightPane, self).__init__(**kwargs)
+        self.add_widget(Button(text='+'))
+        self.add_widget(Button(text='-'))
     pass
 
 class Display(BoxLayout):
