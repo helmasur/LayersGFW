@@ -1,20 +1,22 @@
 #:kivy 1.0.9
 
 <MainFrame>:
+    Splitter:
+        sizable_from: 'right'
+        #keep_within_parent: in_parent_box.active
+        #rescale_with_parent: rescale_box.active
+        Display:
+    Layer:
+
+
+<Layer>:
+    Button:
+        text: 'asdf'
+
+<Display>:
     canvas:
+        Color:
+            rgb: .5, .5, .5
         Rectangle:
-            #pos: self.center_x - 5, 0
-            size: self.width-5, self.height-5
-            Color: 0.1,0.1,0.1
-
-    Label:
-        font_size: 70
-        center_x: root.width / 4
-        top: root.top - 50
-        text: "0"
-
-    Label:
-        font_size: 70
-        center_x: root.width * 3 / 4
-        top: root.top - 50
-        text: "0"
+            pos: self.pos
+            size: self.size
