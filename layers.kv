@@ -6,17 +6,18 @@
         #keep_within_parent: in_parent_box.active
         #rescale_with_parent: rescale_box.active
         Display:
+            id: disp_instance
     RightPane:
-
 
 <RightPane>:
     Button:
+        id: grual
         text: 'From kv file'
+        on_press: root.activate()
 
 <Display>:
-    canvas:
-        Color:
-            rgb: .5, .5, .5
-        Rectangle:
-            pos: self.pos
-            size: self.size
+    disp_prop: disp_lbl
+    # num_prop: nummer
+    Label:
+        id: disp_lbl
+        text: '100'

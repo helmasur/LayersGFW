@@ -48,7 +48,7 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
-
+from kivy.properties import ObjectProperty, NumericProperty
 
 class MainFrame(BoxLayout):
     pass
@@ -58,10 +58,21 @@ class RightPane(BoxLayout):
         super(RightPane, self).__init__(**kwargs)
         self.add_widget(Button(text='+'))
         self.add_widget(Button(text='-'))
-    pass
+
+    def activate(self, *args):
+        self.parent.ids.disp_instance.disp_prop.text = 'zxcvzxcv'
+        pass
 
 class Display(BoxLayout):
-    pass
+    disp_prop = ObjectProperty(None)
+    num_prop = NumericProperty(111)
+    #lum = NumericProperty(.2)
+
+    def add_light(self, *args):
+        print('!!!')
+        #rect = self.ids['disprect']
+        #rect.color[0] += 10
+
 
 
 class LayersApp(App):
