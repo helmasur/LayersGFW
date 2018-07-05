@@ -48,32 +48,41 @@ from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.widget import Widget
 from kivy.uix.button import Button
+from kivy.uix.spinner import Spinner
+from kivy.uix.textinput import TextInput
+
 from kivy.properties import ObjectProperty, NumericProperty
 
 class MainFrame(BoxLayout):
     pass
 
+class Btn_add(Button):
+    def __init__(self, **kwargs):
+        super(Btn_add, self).__init__(**kwargs)
+        self.text = "+"
+    def on_press(self, *args):
+        self.parent.parent.ids.disp_instance.num_prop += 1
+
+class Btn_sub(Button):
+    def __init__(self, **kwargs):
+        super(Btn_sub, self).__init__(**kwargs)
+        self.text = "-"
+    def on_press(self, *args):
+        self.parent.parent.ids.disp_instance.num_prop -= 1
+
 class RightPane(BoxLayout):
     def __init__(self, **kwargs):
         super(RightPane, self).__init__(**kwargs)
-        self.add_widget(Button(text='+'))
-        self.add_widget(Button(text='-'))
+        self.add_widget(Btn_add())
+        self.add_widget(Btn_sub())
+        self.add_widget(Layer())
 
-    def activate(self, *args):
-        self.parent.ids.disp_instance.disp_prop.text = 'zxcvzxcv'
-        pass
+class Layer(BoxLayout):
+    def stuff(self, *args):
+        print('press')
 
 class Display(BoxLayout):
-    disp_prop = ObjectProperty(None)
-    num_prop = NumericProperty(111)
-    #lum = NumericProperty(.2)
-
-    def add_light(self, *args):
-        print('!!!')
-        #rect = self.ids['disprect']
-        #rect.color[0] += 10
-
-
+    num_prop = NumericProperty(100)
 
 class LayersApp(App):
     def build(self):

@@ -10,14 +10,24 @@
     RightPane:
 
 <RightPane>:
-    Button:
-        id: grual
-        text: 'From kv file'
-        on_press: root.activate()
+    orientation: 'vertical'
 
 <Display>:
-    disp_prop: disp_lbl
-    # num_prop: nummer
     Label:
         id: disp_lbl
-        text: '100'
+        text: str(root.num_prop)
+
+<Layer>:
+    orientation: 'vertical'
+    BoxLayout:
+        size_hint_y: None
+        size: self.size[0], 25
+        Spinner:
+            on_press: root.stuff()
+            text: 'Blend mode'
+            values: 'Add', 'Sub'
+        Button:
+        Button:
+    Button:
+        size_hint_y: None
+        size: self.size[0], 40
