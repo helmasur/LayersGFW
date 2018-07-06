@@ -18,16 +18,39 @@
         text: str(root.num_prop)
 
 <Layer>:
+    size_hint_y: None
+    size: self.size[0], 65
     orientation: 'vertical'
+    # Top row
     BoxLayout:
         size_hint_y: None
         size: self.size[0], 25
+        CheckBox:
+            size_hint_x: None
+            size: 25, self.size[1]
+            group: 'layerselect'
+        CheckBox:
+            size_hint_x: None
+            size: 25, self.size[1]
         Spinner:
             on_press: root.stuff()
+            font_size: 10
             text: 'Blend mode'
             values: 'Add', 'Sub'
         Button:
+            text: 'A'
+            group: 'test'
         Button:
-    Button:
+            text: 'B'
+            group: 'test'
+    # Lower fields
+    BoxLayout:
         size_hint_y: None
         size: self.size[0], 40
+        Label:
+            id: thumb
+            text: str(root.content)
+            size_hint_x: None
+            size: 40, self.size[1]
+        ToggleButton:
+            group: 'buttonselect'

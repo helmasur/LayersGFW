@@ -78,8 +78,9 @@ class RightPane(BoxLayout):
         self.add_widget(Layer())
 
 class Layer(BoxLayout):
+    content = NumericProperty(10)
     def stuff(self, *args):
-        print('press')
+        pass
 
 class Display(BoxLayout):
     num_prop = NumericProperty(100)
