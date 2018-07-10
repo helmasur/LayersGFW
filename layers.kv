@@ -33,7 +33,7 @@
             size_hint_x: None
             size: 25, self.size[1]
         Spinner:
-            on_press: root.stuff()
+            on_press: root.spinner_press()
             font_size: 10
             text: 'Blend mode'
             values: 'Add', 'Sub'
@@ -54,3 +54,7 @@
             size: 40, self.size[1]
         ToggleButton:
             group: 'buttonselect'
+
+<Layer_scroll>:
+    size_hint_y: .75
+    do_scroll_x: False
