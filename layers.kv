@@ -55,6 +55,19 @@
         ToggleButton:
             group: 'buttonselect'
 
-<Layer_scroll>:
+<ScrollBox>:
     size_hint_y: .75
     do_scroll_x: False
+
+<ScrollLayout>:
+    orientation: 'vertical'
+    canvas:
+        Color:
+            rgb: .25, .25, 0
+        Rectangle:
+            pos: self.pos
+            size: self.size
+    cols: 1
+    padding: 10
+    spacing: 10
+    size_hint: (1, None)

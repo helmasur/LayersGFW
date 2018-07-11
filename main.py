@@ -73,29 +73,39 @@ class Btn_sub(Button):
     def on_press(self, *args):
         self.parent.parent.ids.disp_instance.num_prop -= 1
 
-class Layer_scroll(ScrollView):
+# These empty classes are defined so that they can be used in the .kv file,
+# otherwise the base class could be styled but that would also style all
+# future instances wich is very impratical.
+class ScrollBox(ScrollView):
     pass
+class ScrollLayout(GridLayout):
+    pass
+
 
 class RightPane(BoxLayout):
     def __init__(self, **kwargs):
         super(RightPane, self).__init__(**kwargs)
         self.layer_list = []
 
+        # Create and add the Add Layer button
         self.addLayerBtn = Button(text = 'Add Layer', size_hint_y = .1)
         self.addLayerBtn.bind(on_press = self.add_layer)
         self.add_widget(self.addLayerBtn)
 
+        # Add buttons of another class
         self.add_widget(Btn_add(size_hint_y = .1))
         self.add_widget(Btn_sub(size_hint_y = .1))
 
-        self.scroller = Layer_scroll()
-        self.scroll_layout = GridLayout(cols=1, padding=10, spacing=10,
-                                        size_hint_y = None, size = (self.size[0], 1000))
+        # Make the layer scroll list
+        self.scroller = ScrollBox()
+        self.scroll_layout = ScrollLayout()
+        # Automatically set the layout size to fit all its children,
+        # I think this works by minimum_height automatically being updated
+        # when contents change, which in turn activates the setter() method
+        # which does a similar calculation on its own...?
+        self.scroll_layout.bind(minimum_height=self.scroll_layout.setter('height'))
         self.scroller.add_widget(self.scroll_layout)
         self.add_widget(self.scroller)
-
-        self.layer_list.append(Layer())
-        # self.scroller.add_widget(self.layer_list[0])
 
     def add_layer(self, *args):
         print('add layer')
