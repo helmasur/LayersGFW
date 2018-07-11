@@ -13,22 +13,28 @@
     orientation: 'vertical'
 
 <Display>:
-    Label:
+    TextInput:
+        size_hint: .2, .2
         id: disp_lbl
         text: str(root.num_prop)
+        on_text: root.input()
 
 <Layer>:
+    id: alayer
     size_hint_y: None
     size: self.size[0], 65
     orientation: 'vertical'
     # Top row
     BoxLayout:
+        id: scrollbox
         size_hint_y: None
         size: self.size[0], 25
-        CheckBox:
+        CheckBox: # radio button
+            id: selbox
             size_hint_x: None
             size: 25, self.size[1]
             group: 'layerselect'
+            on_press: root.print_id()
         CheckBox:
             size_hint_x: None
             size: 25, self.size[1]

@@ -52,6 +52,7 @@ from kivy.uix.button import Button
 from kivy.uix.spinner import Spinner
 from kivy.uix.textinput import TextInput
 from kivy.uix.scrollview import ScrollView
+from kivy.uix.checkbox import CheckBox
 
 
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty
@@ -85,7 +86,8 @@ class ScrollLayout(GridLayout):
 class RightPane(BoxLayout):
     def __init__(self, **kwargs):
         super(RightPane, self).__init__(**kwargs)
-        self.layer_list = []
+        self.inc_layer_id = 0 # incremental id
+        self.layer_list = {}
 
         # Create and add the Add Layer button
         self.addLayerBtn = Button(text = 'Add Layer', size_hint_y = .1)
@@ -107,28 +109,32 @@ class RightPane(BoxLayout):
         self.scroller.add_widget(self.scroll_layout)
         self.add_widget(self.scroller)
 
-    def add_layer(self, *args):
-        print('add layer')
-        self.layer_list.append(Layer())
-        self.scroll_layout.add_widget(self.layer_list[-1])
+    def add_layer(self, id, *args):
+        self.layer_list[id] = Layer(id)
+        self.scroll_layout.add_widget(self.layer_list[id])
         pass
 
 
 class Layer(BoxLayout):
     content = NumericProperty(10)
-    id = NumericProperty(1)
+    cid = NumericProperty(1)
 
-    def __init__(self, **kwargs):
+    def __init__(self, id, **kwargs):
         super(Layer, self).__init__(**kwargs)
-        # self.id = id
+        self.cid = id
         pass
 
     def spinner_press(self, *args):
         print('spinner pressed')
         pass
 
+    def print_id(self, *args):
+        print(self.cid)
+
 class Display(BoxLayout):
     num_prop = NumericProperty(100)
+    def input(self, *args):
+        pass
 
 class LayersApp(App):
     def build(self):
