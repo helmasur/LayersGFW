@@ -109,19 +109,21 @@ class RightPane(BoxLayout):
         self.scroller.add_widget(self.scroll_layout)
         self.add_widget(self.scroller)
 
-    def add_layer(self, id, *args):
-        self.layer_list[id] = Layer(id)
-        self.scroll_layout.add_widget(self.layer_list[id])
+    def add_layer(self, *args):
+        lid = self.inc_layer_id
+        self.layer_list[lid] = Layer(lid)
+        self.scroll_layout.add_widget(self.layer_list[lid])
+        self.inc_layer_id += 1
         pass
 
 
 class Layer(BoxLayout):
     content = NumericProperty(10)
-    cid = NumericProperty(1)
+    layer_id = NumericProperty(1)
 
-    def __init__(self, id, **kwargs):
+    def __init__(self, layer_id, **kwargs):
         super(Layer, self).__init__(**kwargs)
-        self.cid = id
+        self.layer_id = layer_id
         pass
 
     def spinner_press(self, *args):
@@ -129,7 +131,7 @@ class Layer(BoxLayout):
         pass
 
     def print_id(self, *args):
-        print(self.cid)
+        print(self.layer_id)
 
 class Display(BoxLayout):
     num_prop = NumericProperty(100)
