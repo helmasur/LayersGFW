@@ -60,27 +60,17 @@ from kivy.properties import ObjectProperty, NumericProperty, StringProperty
 class MainFrame(BoxLayout):
     pass
 
-class Btn_add(Button):
-    def __init__(self, **kwargs):
-        super(Btn_add, self).__init__(**kwargs)
-        self.text = "+"
-    def on_press(self, *args):
-        self.parent.parent.ids.disp_instance.num_prop += 1
+class LayersApp(App):
+    def build(self):
+        return MainFrame()
 
-class Btn_sub(Button):
-    def __init__(self, **kwargs):
-        super(Btn_sub, self).__init__(**kwargs)
-        self.text = "-"
-    def on_press(self, *args):
-        self.parent.parent.ids.disp_instance.num_prop -= 1
+class Display(BoxLayout):
+    num_prop = NumericProperty(100)
+    def input(self, *args):
+        print(self.ids.txtin.text)
+        pass
 
-# These empty classes are defined so that they can be used in the .kv file,
-# otherwise the base class could be styled but that would also style all
-# future instances wich is very impratical.
-class ScrollBox(ScrollView):
-    pass
-class ScrollLayout(GridLayout):
-    pass
+
 
 
 class RightPane(BoxLayout):
@@ -116,6 +106,13 @@ class RightPane(BoxLayout):
         self.inc_layer_id += 1
         pass
 
+# These empty classes are defined so that they can be used in the .kv file,
+# otherwise the base class could be styled but that would also style all
+# future instances wich is very impratical.
+class ScrollBox(ScrollView):
+    pass
+class ScrollLayout(GridLayout):
+    pass
 
 class Layer(BoxLayout):
     content = NumericProperty(10)
@@ -133,14 +130,20 @@ class Layer(BoxLayout):
     def print_id(self, *args):
         print(self.layer_id)
 
-class Display(BoxLayout):
-    num_prop = NumericProperty(100)
-    def input(self, *args):
-        pass
+class Btn_add(Button):
+    def __init__(self, **kwargs):
+        super(Btn_add, self).__init__(**kwargs)
+        self.text = "+"
+    def on_press(self, *args):
+        self.parent.parent.ids.disp_instance.num_prop += 1
 
-class LayersApp(App):
-    def build(self):
-        return MainFrame()
+class Btn_sub(Button):
+    def __init__(self, **kwargs):
+        super(Btn_sub, self).__init__(**kwargs)
+        self.text = "-"
+    def on_press(self, *args):
+        self.parent.parent.ids.disp_instance.num_prop -= 1
+
 
 
 if __name__ == '__main__':
