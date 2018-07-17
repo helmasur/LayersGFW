@@ -70,10 +70,8 @@ class Display(BoxLayout):
         print(self.ids.txtin.text)
         pass
 
-
-
-
 class RightPane(BoxLayout):
+
     def __init__(self, **kwargs):
         super(RightPane, self).__init__(**kwargs)
         self.inc_layer_id = 0 # incremental id
@@ -117,11 +115,15 @@ class ScrollLayout(GridLayout):
 class Layer(BoxLayout):
     content = NumericProperty(10)
     layer_id = NumericProperty(1)
+    active_layer = 45
 
     def __init__(self, layer_id, **kwargs):
         super(Layer, self).__init__(**kwargs)
         self.layer_id = layer_id
         pass
+
+    def set_active(self, *args):
+        Layer.active_layer = self.layer_id
 
     def spinner_press(self, *args):
         print('spinner pressed')
@@ -129,6 +131,10 @@ class Layer(BoxLayout):
 
     def print_id(self, *args):
         print(self.layer_id)
+
+    def print_active(self, *args):
+        print(Layer.active_layer)
+
 
 class Btn_add(Button):
     def __init__(self, **kwargs):

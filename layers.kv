@@ -11,6 +11,7 @@
     RightPane:
 
 <RightPane>:
+    id: 'layers_pane'
     orientation: 'vertical'
 
 <Display>:
@@ -35,7 +36,7 @@
             size_hint_x: None
             size: 25, self.size[1]
             group: 'layerselect'
-            on_press: root.print_id()
+            on_press: root.set_active()
         CheckBox:
             size_hint_x: None
             size: 25, self.size[1]
@@ -45,11 +46,13 @@
             text: 'Blend mode'
             values: 'Add', 'Sub'
         Button:
-            text: 'A'
+            text: 'Print active'
             group: 'test'
+            on_press: root.print_active()
         Button:
-            text: 'B'
+            text: 'Print LID'
             group: 'test'
+            on_press: root.print_id()
     # Lower fields
     BoxLayout:
         size_hint_y: None
