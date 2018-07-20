@@ -55,9 +55,16 @@ from kivy.uix.scrollview import ScrollView
 from kivy.uix.checkbox import CheckBox
 
 
-from kivy.properties import ObjectProperty, NumericProperty, StringProperty
+from kivy.properties import ObjectProperty, NumericProperty, StringProperty, ListProperty, DictProperty
+
+layers_dict = {}
 
 class MainFrame(BoxLayout):
+    num_prop = NumericProperty(456)
+    def input_to_layer(self, *args):
+        self.num_prop = int(self.ids.theLeftInput.text)
+        layers_dict[Layer.active_layer].ids.thumb.text = str(self.num_prop)
+        pass
     pass
 
 class LayersApp(App):
@@ -65,26 +72,23 @@ class LayersApp(App):
         return MainFrame()
 
 class Display(BoxLayout):
-    num_prop = NumericProperty(100)
     def input(self, *args):
+        print('ok')
         print(self.ids.txtin.text)
+        # self.num_prop = int(self.ids.txtin.text)
+        # print(self.num_prop)
+        print('act layer: '+Layer.active_layer)
+        # print(self.parent.ids.rpanel.)
+        # print(layers_dict)
         pass
+    def new_num(self, *args):
+        print('dfg')
 
 class RightPane(BoxLayout):
 
     def __init__(self, **kwargs):
         super(RightPane, self).__init__(**kwargs)
         self.inc_layer_id = 0 # incremental id
-        self.layer_list = {}
-
-        # Create and add the Add Layer button
-        self.addLayerBtn = Button(text = 'Add Layer', size_hint_y = .1)
-        self.addLayerBtn.bind(on_press = self.add_layer)
-        self.add_widget(self.addLayerBtn)
-
-        # Add buttons of another class
-        self.add_widget(Btn_add(size_hint_y = .1))
-        self.add_widget(Btn_sub(size_hint_y = .1))
 
         # Make the layer scroll list
         self.scroller = ScrollBox()
@@ -99,8 +103,8 @@ class RightPane(BoxLayout):
 
     def add_layer(self, *args):
         lid = self.inc_layer_id
-        self.layer_list[lid] = Layer(lid)
-        self.scroll_layout.add_widget(self.layer_list[lid])
+        layers_dict[lid] = Layer(lid)
+        self.scroll_layout.add_widget(layers_dict[lid])
         self.inc_layer_id += 1
         pass
 
@@ -141,14 +145,18 @@ class Btn_add(Button):
         super(Btn_add, self).__init__(**kwargs)
         self.text = "+"
     def on_press(self, *args):
-        self.parent.parent.ids.disp_instance.num_prop += 1
+        # root.num_prop += 1
+        print('er')
+        pass
 
 class Btn_sub(Button):
     def __init__(self, **kwargs):
         super(Btn_sub, self).__init__(**kwargs)
         self.text = "-"
     def on_press(self, *args):
-        self.parent.parent.ids.disp_instance.num_prop -= 1
+        root.num_prop -= 1
+        print(root.num_prop)
+        pass
 
 
 

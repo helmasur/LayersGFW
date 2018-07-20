@@ -2,24 +2,43 @@
 #123
 
 <MainFrame>:
+    id: theMainFrame
     Splitter:
+        id: theSplitter
         sizable_from: 'right'
         #keep_within_parent: in_parent_box.active
         #rescale_with_parent: rescale_box.active
         Display:
-            id: disp_instance
+            id: theDisplay
+            TextInput:
+                size_hint: .2, .2
+                id: theLeftInput
+                text: str(root.num_prop)
+                on_text: root.input_to_layer()
     RightPane:
+        id: theRightPanel
+        orientation: 'vertical'
+        Button:
+            id: addBtn
+            size_hint_y: .1
+            text: 'Add'
+            on_press: root.num_prop += 1
+        Button:
+            id: subBtn
+            size_hint_y: .1
+            text: 'Sub'
+            on_press: root.num_prop -= 1
+        Button:
+            id: newLayerBtn
+            size_hint_y: .1
+            text: 'New Layer'
+            on_press: self.parent.add_layer()
+        Button:
+            id: printNumBtn
+            size_hint_y: .1
+            text: 'Print num_prop'
+            on_press: print(root.num_prop)
 
-<RightPane>:
-    id: 'layers_pane'
-    orientation: 'vertical'
-
-<Display>:
-    TextInput:
-        size_hint: .2, .2
-        id: txtin
-        text: str(root.num_prop)
-        on_text: root.input()
 
 <Layer>:
     id: alayer
