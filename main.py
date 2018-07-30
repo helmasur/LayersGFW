@@ -44,6 +44,7 @@ must match the name of the app, e.g. PongApp
 (the part before the App ending).
 '''
 
+from random import random
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.gridlayout import GridLayout
@@ -57,15 +58,21 @@ from kivy.uix.checkbox import CheckBox
 
 from kivy.properties import ObjectProperty, NumericProperty, StringProperty, ListProperty, DictProperty
 
-layers_dict = {}
 
 class MainFrame(BoxLayout):
-    num_prop = NumericProperty(456)
+    layers_dict = {}
+    # num_prop = NumericProperty(456)
     def input_to_layer(self, *args):
-        self.num_prop = int(self.ids.theLeftInput.text)
-        layers_dict[Layer.active_layer].ids.thumb.text = str(self.num_prop)
+        # self.num_prop = int(self.ids.theLeftInput.text)
+        # layers_dict[Layer.active_layer].ids.thumb.text = str(self.num_prop)
         pass
-    pass
+    def on_num_prop(self, *args):
+        print('werga')
+
+    def test(self, *args):
+        print(MainFrame.layers_dict[Layer.active].content)
+        MainFrame.layers_dict[Layer.active].content += 1
+        print(MainFrame.layers_dict[Layer.active].content)
 
 class LayersApp(App):
     def build(self):
@@ -84,50 +91,58 @@ class Display(BoxLayout):
     def new_num(self, *args):
         print('dfg')
 
+class LayerTools(BoxLayout):
+    pass
+
 class RightPane(BoxLayout):
+    inc_layer_id = 0 # incremental id
 
     def __init__(self, **kwargs):
         super(RightPane, self).__init__(**kwargs)
-        self.inc_layer_id = 0 # incremental id
-
-        # Make the layer scroll list
-        self.scroller = ScrollBox()
-        self.scroll_layout = ScrollLayout()
-        # Automatically set the layout size to fit all its children,
-        # I think this works by minimum_height automatically being updated
-        # when contents change, which in turn activates the setter() method
-        # which does a similar calculation on its own...?
-        self.scroll_layout.bind(minimum_height=self.scroll_layout.setter('height'))
-        self.scroller.add_widget(self.scroll_layout)
-        self.add_widget(self.scroller)
 
     def add_layer(self, *args):
-        lid = self.inc_layer_id
-        layers_dict[lid] = Layer(lid)
-        self.scroll_layout.add_widget(layers_dict[lid])
+        MainFrame.layers_dict[self.inc_layer_id] = Layer(self.inc_layer_id)
+        self.parent.ids.theScrollGrid.add_widget(MainFrame.layers_dict[self.inc_layer_id])
         self.inc_layer_id += 1
-        pass
 
-# These empty classes are defined so that they can be used in the .kv file,
-# otherwise the base class could be styled but that would also style all
-# future instances wich is very impratical.
-class ScrollBox(ScrollView):
-    pass
-class ScrollLayout(GridLayout):
-    pass
+    def add_thumb(self, *args):
+        MainFrame.layers_dict[self.inc_layer_id] = ThumbLayer(self.inc_layer_id)
+        self.parent.ids.theScrollGrid.add_widget(MainFrame.layers_dict[self.inc_layer_id])
+        self.inc_layer_id += 1
+
+class ThumbLayer(BoxLayout):
+    active = NumericProperty(0)
+
+
+    def __init__(self, lid, **kwargs):
+        super(ThumbLayer, self).__init__(**kwargs)
+        self.layer_id = lid
+        ThumbLayer.active = lid
+        self.content = NumericProperty(1)
+
+
+    def update(self, ob, *args):
+        ob.text = str(self.content)
+
+
 
 class Layer(BoxLayout):
-    content = NumericProperty(10)
-    layer_id = NumericProperty(1)
-    active_layer = 45
+    active = NumericProperty(0)
 
-    def __init__(self, layer_id, **kwargs):
+    def __init__(self, lid, **kwargs):
         super(Layer, self).__init__(**kwargs)
-        self.layer_id = layer_id
-        pass
+        self.layer_id = lid
+        Layer.active = lid
+        self.content = 22
+        # self.ids.thumb.bind(text=self.parent.parent.content)
+        # self.ids.thumb.text = '0'
+
+    def get_content(self, *args):
+        return self.content
 
     def set_active(self, *args):
-        Layer.active_layer = self.layer_id
+        Layer.active = self.layer_id
+        print('Active layer: '+str(Layer.active))
 
     def spinner_press(self, *args):
         print('spinner pressed')
@@ -137,28 +152,7 @@ class Layer(BoxLayout):
         print(self.layer_id)
 
     def print_active(self, *args):
-        print(Layer.active_layer)
-
-
-class Btn_add(Button):
-    def __init__(self, **kwargs):
-        super(Btn_add, self).__init__(**kwargs)
-        self.text = "+"
-    def on_press(self, *args):
-        # root.num_prop += 1
-        print('er')
-        pass
-
-class Btn_sub(Button):
-    def __init__(self, **kwargs):
-        super(Btn_sub, self).__init__(**kwargs)
-        self.text = "-"
-    def on_press(self, *args):
-        root.num_prop -= 1
-        print(root.num_prop)
-        pass
-
-
+        print(Layer.active)
 
 if __name__ == '__main__':
     LayersApp().run()

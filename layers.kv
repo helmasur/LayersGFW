@@ -13,35 +13,95 @@
             TextInput:
                 size_hint: .2, .2
                 id: theLeftInput
-                text: str(root.num_prop)
+                text: '-'
                 on_text: root.input_to_layer()
     RightPane:
         id: theRightPanel
         orientation: 'vertical'
-        Button:
-            id: addBtn
-            size_hint_y: .1
-            text: 'Add'
-            on_press: root.num_prop += 1
-        Button:
-            id: subBtn
-            size_hint_y: .1
-            text: 'Sub'
-            on_press: root.num_prop -= 1
-        Button:
-            id: newLayerBtn
-            size_hint_y: .1
-            text: 'New Layer'
-            on_press: self.parent.add_layer()
-        Button:
-            id: printNumBtn
-            size_hint_y: .1
-            text: 'Print num_prop'
-            on_press: print(root.num_prop)
+        LayerTools:
+            size_hint_y: .3
+        GridLayout:
+            size_hint_y: .2
+            cols: 4
+            rows: 4
+            Button:
+                id: addBtn
+                size_hint_y: .1
+                text: 'Add'
+                on_press: print(root.ids)
+                # on_press: print(root.layers_dict[root.ids.layer_widget.active])
+                # on_press: root.test()
+            Button:
+                id: subBtn
+                size_hint_y: .1
+                text: 'Sub'
+                on_press: root.num_prop -= 1
+            Button:
+                id: newLayerBtn
+                size_hint_y: .1
+                text: 'New Layer'
+                on_press: self.parent.add_layer()
+                # on_press: print('new')
+            Button:
+                id: newThumbBtn
+                size_hint_y: .1
+                text: 'New Thumb'
+                on_press: self.parent.parent.add_thumb()
+            Button:
+                id: printNumBtn
+                size_hint_y: .1
+                text: 'Print num_prop'
+                on_press: print(root.num_prop)
+
+        ScrollView:
+            id: theLayerScroll
+            size_hint_y: .75
+            do_scroll_x: False
+            GridLayout:
+                id: theScrollGrid
+                orientation: 'vertical'
+                canvas:
+                    Color:
+                        rgb: .2, .2, .2
+                    Rectangle:
+                        pos: self.pos
+                        size: 500,self.minimum_height
+                cols: 1
+                padding: 10
+                spacing: 10
+                size: 500,self.minimum_height
+                size_hint: (1, None)
+
+<LayerTools>:
+    id: layerTools
+    orientation: 'horizontal'
+
+    Label:
+        canvas:
+            Color:
+                rgb: 1, 0, 0
+            Rectangle:
+                pos: self.pos
+                size: self.size
+        # text: '.'
+        size_hint: None, None
+        size: 5, 5
+
+<ThumbLayer>:
+    orientation: 'vertical'
+    id: thumb
+    size_hint: None, None
+    size: 50, 50
+    ToggleButton:
+        id: thumb_btn
+        text: root.content
+        group: 'thumbs'
+        on_press: root.update(self)
+
 
 
 <Layer>:
-    id: alayer
+    id: layer_widget
     size_hint_y: None
     size: self.size[0], 65
     orientation: 'vertical'
@@ -78,25 +138,14 @@
         size: self.size[0], 40
         Label:
             id: thumb
-            text: str(root.content)
             size_hint_x: None
             size: 40, self.size[1]
         ToggleButton:
             group: 'buttonselect'
 
-<ScrollBox>:
-    size_hint_y: .75
-    do_scroll_x: False
-
-<ScrollLayout>:
-    orientation: 'vertical'
-    canvas:
-        Color:
-            rgb: .25, .25, 0
-        Rectangle:
-            pos: self.pos
-            size: self.size
-    cols: 1
-    padding: 10
-    spacing: 10
-    size_hint: (1, None)
+<Widget>:
+    canvas.after:
+        Line:
+            rectangle: self.x+1,self.y+1,self.width-1,self.height-1
+            dash_offset: 5
+            dash_length: 0 # Change number to 3 for easier debugging
